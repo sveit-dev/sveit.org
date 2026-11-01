@@ -178,8 +178,87 @@
     next();
   }
 
+  /* ---------- the troops: five drawings on one rig ---------- */
+  var LEGS = '<g class="legs"><rect class="leg legA" x="11" y="36" width="4" height="11" rx="1"></rect><rect class="leg legB" x="17" y="36" width="4" height="11" rx="1"></rect></g>';
+  var LEGS_THIN = '<g class="legs"><rect class="leg legA" x="12.5" y="36" width="2.5" height="11" rx="1"></rect><rect class="leg legB" x="17" y="36" width="2.5" height="11" rx="1"></rect></g>';
+  var TOOL = {
+    manager: '<g class="tool"><rect class="paper" x="21" y="21" width="8" height="10" rx="0.5"></rect><rect class="pline" x="22.5" y="23.5" width="5" height="1"></rect><rect class="pline" x="22.5" y="26" width="4" height="1"></rect><rect class="pline" x="22.5" y="28.5" width="5" height="1"></rect></g>',
+    dev: '<g class="tool"><rect class="handle" x="24" y="14" width="2" height="15" rx="0.5"></rect><rect class="hhead" x="21.5" y="11.5" width="7" height="4" rx="0.5"></rect></g>',
+    qa: '<g class="tool"><rect class="handle" x="22.5" y="25" width="2" height="9" rx="0.5" transform="rotate(-30 23.5 29.5)"></rect><circle class="glass" cx="27.5" cy="21" r="4"></circle></g>'
+  };
+  var EYES = '<rect class="eye" x="16.5" y="12" width="2" height="2.5"></rect><rect class="eye" x="20" y="12" width="2" height="2.5"></rect>';
+  function torso(inner, role) { return '<g class="torso">' + inner + TOOL[role] + '</g>'; }
+  var FIGURES = {
+    people: {
+      manager: '<g class="legs"><rect class="leg legA" x="11" y="37" width="4" height="10" rx="1"></rect><rect class="leg legB" x="17" y="37" width="4" height="10" rx="1"></rect></g>' + torso('<rect class="body" x="8.5" y="18" width="15" height="20" rx="2"></rect><rect class="trim" x="15.25" y="18" width="1.5" height="20"></rect><rect class="head" x="10" y="5" width="12" height="12" rx="2"></rect><rect class="cap" x="9" y="3" width="14" height="3.5" rx="1"></rect><rect class="eye" x="16.5" y="9.5" width="2" height="2.5"></rect><rect class="eye" x="20" y="9.5" width="2" height="2.5"></rect>', 'manager'),
+      dev: LEGS + torso('<rect class="body" x="9" y="20" width="14" height="17" rx="2"></rect><rect class="apron" x="11" y="25" width="10" height="12" rx="1"></rect><rect class="head" x="10" y="7" width="12" height="12" rx="2"></rect><rect class="band" x="10" y="7" width="12" height="3" rx="1"></rect>' + EYES, 'dev'),
+      qa: LEGS + torso('<rect class="body" x="9" y="20" width="14" height="17" rx="2"></rect><rect class="trim" x="9" y="30" width="14" height="1.5"></rect><rect class="head" x="10" y="7" width="12" height="12" rx="2"></rect><rect class="visor" x="15" y="10.5" width="8" height="4" rx="1"></rect>', 'qa')
+    },
+    gnomes: {
+      manager: LEGS + torso('<rect class="body" x="8" y="22" width="16" height="15" rx="6"></rect><path class="beard" d="M10.5 19.5Q16 32 21.5 19.5Z"></path><rect class="head" x="10" y="12" width="12" height="9" rx="3"></rect><path class="hat" d="M8.5 13.5L16 -8L23.5 13.5Z"></path><rect class="eye" x="16.5" y="14.5" width="2" height="2.5"></rect><rect class="eye" x="20" y="14.5" width="2" height="2.5"></rect>', 'manager'),
+      dev: LEGS + torso('<rect class="body" x="8" y="22" width="16" height="15" rx="6"></rect><rect class="apron" x="11" y="27" width="10" height="10" rx="1"></rect><path class="beard" d="M10.5 19.5Q16 30 21.5 19.5Z"></path><rect class="head" x="10" y="12" width="12" height="9" rx="3"></rect><path class="hat" d="M8.5 13.5L16 -2L23.5 13.5Z"></path><rect class="eye" x="16.5" y="14.5" width="2" height="2.5"></rect><rect class="eye" x="20" y="14.5" width="2" height="2.5"></rect>', 'dev'),
+      qa: LEGS + torso('<rect class="body" x="8" y="22" width="16" height="15" rx="6"></rect><path class="beard" d="M10.5 19.5Q16 29 21.5 19.5Z"></path><rect class="head" x="10" y="12" width="12" height="9" rx="3"></rect><path class="hat" d="M8.5 13.5L16 1L23.5 13.5Z"></path><rect class="visor" x="15" y="14" width="8" height="3.5" rx="1"></rect>', 'qa')
+    },
+    robots: {
+      manager: LEGS + torso('<rect class="body" x="8" y="19" width="16" height="18" rx="1"></rect><rect class="panel" x="11" y="23" width="10" height="6"></rect><rect class="rivet" x="9.5" y="20.5" width="1.5" height="1.5"></rect><rect class="rivet" x="21" y="20.5" width="1.5" height="1.5"></rect><rect class="head" x="9" y="6" width="14" height="11" rx="1"></rect><rect class="antenna" x="15.25" y="1" width="1.5" height="5"></rect><rect class="bulb" x="14.25" y="-1" width="3.5" height="2.5"></rect><rect class="eye" x="16.5" y="9.5" width="2.5" height="2.5"></rect><rect class="eye" x="20" y="9.5" width="2.5" height="2.5"></rect>', 'manager'),
+      dev: LEGS + torso('<rect class="body" x="8" y="19" width="16" height="18" rx="1"></rect><rect class="panel" x="11" y="23" width="10" height="6"></rect><rect class="rivet" x="9.5" y="20.5" width="1.5" height="1.5"></rect><rect class="rivet" x="21" y="20.5" width="1.5" height="1.5"></rect><rect class="head" x="9" y="6" width="14" height="11" rx="1"></rect><rect class="antenna" x="15.25" y="1" width="1.5" height="5"></rect><rect class="bulb" x="14.25" y="-1" width="3.5" height="2.5"></rect><rect class="eye" x="16.5" y="9.5" width="2.5" height="2.5"></rect><rect class="eye" x="20" y="9.5" width="2.5" height="2.5"></rect>', 'dev'),
+      qa: LEGS + torso('<rect class="body" x="8" y="19" width="16" height="18" rx="1"></rect><rect class="panel" x="11" y="23" width="10" height="6"></rect><rect class="rivet" x="9.5" y="20.5" width="1.5" height="1.5"></rect><rect class="rivet" x="21" y="20.5" width="1.5" height="1.5"></rect><rect class="head" x="9" y="6" width="14" height="11" rx="1"></rect><rect class="antenna" x="15.25" y="1" width="1.5" height="5"></rect><rect class="bulb" x="14.25" y="-1" width="3.5" height="2.5"></rect><rect class="eye" x="12.5" y="9.5" width="9" height="3"></rect>', 'qa')
+    },
+    cats: {
+      manager: LEGS + torso('<path class="tail" d="M9 33C2 33 2 24 6 21"></path><rect class="body" x="9" y="21" width="14" height="16" rx="5"></rect><rect class="head" x="9" y="8" width="14" height="12" rx="5"></rect><path class="ear" d="M10 11L11 3.5L15.5 8.5Z"></path><path class="ear" d="M22 11L21 3.5L16.5 8.5Z"></path><rect class="eye" x="16.5" y="12" width="2" height="2.5"></rect><rect class="eye" x="20" y="12" width="2" height="2.5"></rect><rect class="nose" x="21.5" y="16" width="1.5" height="1"></rect>', 'manager'),
+      dev: LEGS + torso('<path class="tail" d="M9 33C2 33 2 24 6 21"></path><rect class="body" x="9" y="21" width="14" height="16" rx="5"></rect><rect class="apron" x="11" y="26" width="10" height="11" rx="1"></rect><rect class="head" x="9" y="8" width="14" height="12" rx="5"></rect><path class="ear" d="M10 11L11 3.5L15.5 8.5Z"></path><path class="ear" d="M22 11L21 3.5L16.5 8.5Z"></path><rect class="eye" x="16.5" y="12" width="2" height="2.5"></rect><rect class="eye" x="20" y="12" width="2" height="2.5"></rect><rect class="nose" x="21.5" y="16" width="1.5" height="1"></rect>', 'dev'),
+      qa: LEGS + torso('<path class="tail" d="M9 33C2 33 2 24 6 21"></path><rect class="body" x="9" y="21" width="14" height="16" rx="5"></rect><rect class="head" x="9" y="8" width="14" height="12" rx="5"></rect><path class="ear" d="M10 11L11 3.5L15.5 8.5Z"></path><path class="ear" d="M22 11L21 3.5L16.5 8.5Z"></path><rect class="visor" x="15" y="11.5" width="8" height="4" rx="1"></rect><rect class="nose" x="21.5" y="16" width="1.5" height="1"></rect>', 'qa')
+    },
+    birds: {
+      manager: LEGS_THIN + torso('<rect class="body" x="7" y="19" width="18" height="18" rx="8"></rect><path class="wing" d="M8.5 25C5 31 7 36 13 36C17 36 18 30 15 24Z"></path><rect class="head" x="13" y="8" width="12" height="12" rx="5.5"></rect><path class="beak" d="M24.5 13L31.5 14.5L24.5 16.5Z"></path><rect class="eye" x="19.5" y="11.5" width="2" height="2.5"></rect>', 'manager'),
+      dev: LEGS_THIN + torso('<rect class="body" x="7" y="19" width="18" height="18" rx="8"></rect><path class="wing" d="M8.5 25C5 31 7 36 13 36C17 36 18 30 15 24Z"></path><rect class="band" x="12" y="20" width="12" height="2.5" rx="1"></rect><rect class="head" x="13" y="8" width="12" height="12" rx="5.5"></rect><path class="beak" d="M24.5 13L31.5 14.5L24.5 16.5Z"></path><rect class="eye" x="19.5" y="11.5" width="2" height="2.5"></rect>', 'dev'),
+      qa: LEGS_THIN + torso('<rect class="body" x="7" y="19" width="18" height="18" rx="8"></rect><path class="wing" d="M8.5 25C5 31 7 36 13 36C17 36 18 30 15 24Z"></path><rect class="head" x="13" y="8" width="12" height="12" rx="5.5"></rect><path class="beak" d="M24.5 13L31.5 14.5L24.5 16.5Z"></path><rect class="visor" x="17.5" y="10.5" width="7" height="3.5" rx="1"></rect>', 'qa')
+    }
+  };
+  var TROOPS = ['people', 'gnomes', 'robots', 'cats', 'birds'];
+  var troop = 'people';
+  var troopBtn = document.getElementById('ctl-troop');
+
+  function applyTroop(name) {
+    if (!FIGURES[name]) name = 'people';
+    troop = name;
+    Object.keys(ROLE).forEach(function (k) {
+      var svg = figs[k].el.querySelector('.fig');
+      if (svg) svg.innerHTML = FIGURES[name][ROLE[k]];
+    });
+    if (troopBtn) {
+      var next = TROOPS[(TROOPS.indexOf(name) + 1) % TROOPS.length];
+      Array.prototype.forEach.call(troopBtn.querySelectorAll('.i-troop'), function (s) { s.classList.toggle('on', s.getAttribute('data-troop') === name); });
+      troopBtn.setAttribute('aria-label', 'Troop: ' + name + '. Switch to ' + next);
+      troopBtn.title = name + ' · click for ' + next;
+    }
+    try { localStorage.setItem('sveit-troop', name); } catch (e) {}
+  }
+  if (troopBtn) troopBtn.addEventListener('click', function () { applyTroop(TROOPS[(TROOPS.indexOf(troop) + 1) % TROOPS.length]); });
+
+  /* ---------- theme ---------- */
+  var themeBtn = document.getElementById('ctl-theme');
+  function themeNow() {
+    var set = document.documentElement.getAttribute('data-theme');
+    if (set === 'light' || set === 'dark') return set;
+    return (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
+  }
+  function labelTheme() {
+    if (themeBtn) themeBtn.setAttribute('aria-label', 'Switch to ' + (themeNow() === 'dark' ? 'light' : 'dark') + ' theme');
+  }
+  if (themeBtn) themeBtn.addEventListener('click', function () {
+    var next = themeNow() === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', next);
+    try { localStorage.setItem('sveit-theme', next); } catch (e) {}
+    labelTheme();
+  });
+  labelTheme();
+
   /* ---------- start ---------- */
   initial(144);
+  var saved = null;
+  try { saved = localStorage.getItem('sveit-troop'); } catch (e) {}
+  applyTroop(saved || 'people');
   seed();
   placeCamera();
   window.addEventListener('resize', function () { var d = cam.dur; cam.dur = 0; placeCamera(); cam.dur = d; });

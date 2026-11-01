@@ -52,6 +52,20 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--focus);outline-offs
 .wm{display:block;height:32px;line-height:0;color:var(--ink)}
 .wm svg{display:block;height:32px;width:auto}
 .wm .ink{fill:currentColor}
+.hd-controls{display:flex;gap:8px}
+.ctl{width:32px;height:32px;display:inline-grid;place-items:center;padding:0;border:1px solid var(--rule-strong);border-radius:var(--radius-sm);background:transparent;color:var(--ink);cursor:pointer}
+.ctl:hover{border-color:var(--ink)}
+.ctl svg{display:block;width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.ctl .filled{fill:currentColor;stroke:none}
+.ctl-troop .i-troop{display:none}
+.ctl-troop .i-troop.on{display:block}
+.ctl-theme .i-moon{display:none}
+:root[data-theme="dark"] .ctl-theme .i-sun{display:none}
+:root[data-theme="dark"] .ctl-theme .i-moon{display:block}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]) .ctl-theme .i-sun{display:none}
+  :root:not([data-theme="light"]) .ctl-theme .i-moon{display:block}
+}
 .words{flex:1 0 auto;padding:56px var(--gutter);display:flex;flex-direction:column;justify-content:center;gap:32px}
 .h-display{margin:0;font-family:var(--font-mono);font-weight:400;font-size:48px;line-height:52px;letter-spacing:-0.02em;color:var(--ink)}
 .h-display .m{display:none}
@@ -117,8 +131,8 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--focus);outline-offs
 
 /* ---------- figures ---------- */
 .ag{position:absolute;bottom:var(--floor);transform:translateX(-50%) scale(var(--s));transform-origin:50% 100%;transition-property:left;transition-timing-function:linear;display:flex;flex-direction:column;align-items:center;gap:3px;z-index:2}
-.ag-name{font-family:var(--font-mono);font-size:9px;line-height:12px;color:var(--ink-faint);white-space:nowrap;background:var(--ground);padding:0 3px}
-.ag-card{font-family:var(--font-mono);font-size:9px;line-height:12px;padding:1px 4px;border:1px solid var(--rule-strong);background:var(--surface);color:var(--ink);white-space:nowrap}
+.ag-name{position:relative;z-index:1;font-family:var(--font-mono);font-size:9px;line-height:12px;color:var(--ink-faint);white-space:nowrap;background:var(--ground);padding:0 3px}
+.ag-card{position:relative;z-index:1;font-family:var(--font-mono);font-size:9px;line-height:12px;padding:1px 4px;border:1px solid var(--rule-strong);background:var(--surface);color:var(--ink);white-space:nowrap}
 .fig{display:block;overflow:visible}
 .face-l .fig{transform:scaleX(-1)}
 .fig .head{fill:var(--ink)}
@@ -136,6 +150,20 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--focus);outline-offs
 .fig .handle{fill:var(--ink-muted)}
 .fig .hhead{fill:var(--ink)}
 .fig .glass{fill:none;stroke:var(--ink);stroke-width:1.4}
+/* the other troops share the rig: hat, wing and body follow the role; the rest is constant */
+.fig .hat,.fig .wing{fill:var(--ink-muted)}
+.r-dev .fig .hat,.r-dev .fig .wing{fill:var(--rule-strong)}
+.r-qa .fig .hat,.r-qa .fig .wing{fill:var(--ink-faint)}
+.fig .beard{fill:var(--rule)}
+.fig .panel{fill:var(--surface-sunken)}
+.fig .rivet{fill:var(--ground)}
+.fig .antenna{fill:var(--ink-muted)}
+.fig .bulb{fill:var(--ink-faint);animation:ws-bulb 2.6s steps(1) infinite}
+.fig .ear{fill:var(--ink)}
+.fig .nose{fill:var(--ground)}
+.fig .tail{fill:none;stroke:var(--ink-muted);stroke-width:2;stroke-linecap:round;transform-box:fill-box;transform-origin:100% 100%;animation:ws-tail 2.4s ease-in-out infinite}
+.fig .beak{fill:var(--ink-faint)}
+.fig .foot{fill:var(--ink-faint)}
 .fig .leg,.fig .tool,.fig .head,.fig .torso,.fig .eye{transform-box:fill-box}
 .fig .leg{transform-origin:50% 0}
 .fig .eye{transform-origin:50% 50%;animation:ws-blink 7s infinite}
@@ -199,3 +227,5 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--focus);outline-offs
 @keyframes ws-beam{0%{transform:translateY(0)}100%{transform:translateY(104px)}}
 @keyframes ws-type{0%{transform:scaleX(0.15)}100%{transform:scaleX(1)}}
 @keyframes ws-led{0%,100%{fill:var(--rule)}50%{fill:var(--ink)}}
+@keyframes ws-bulb{0%,100%{fill:var(--ink-faint)}50%{fill:var(--ink)}}
+@keyframes ws-tail{0%,100%{transform:rotate(0deg)}50%{transform:rotate(-16deg)}}
