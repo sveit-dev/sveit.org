@@ -95,7 +95,7 @@
   function camTo(x, dur) { return function () { cam = { x: x, dur: dur }; placeCamera(); }; }
 
   /* ---------- the cycle ---------- */
-  var LECT = 12.2, HAND = 26.4, BENCH1 = 29.8, BENCH2 = 39.8, SCAN = 52, RIG = 60.4, DROP = 72.4, DOOR = 83.4;
+  var LECT = 12.2, HAND = 22.4, BENCH1 = 31.4, BENCH2 = 41.4, SCAN = 52, RIG = 60.4, DROP = 72.4, DOOR = 83.4;
 
   function initial(n) {
     setFig('mgr', F(LECT, 'read', 'NRD-' + (n + 4), '', '0ms'));
