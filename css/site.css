@@ -119,6 +119,34 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--focus);outline-offs
 .lamp-ochre .st .lamp{fill:var(--ochre)}
 .lamp-green .st .lamp{fill:var(--green)}
 .lamp-oxide .st .lamp{fill:var(--oxide)}
+/* parts the other worlds add */
+.st .ln2{fill:var(--rule-strong)}
+.st .pline{fill:var(--ink-faint)}
+.st .ac{fill:var(--accent,var(--rule-strong))}
+.st g.door{fill:var(--surface);stroke:var(--rule-strong);stroke-width:1.25;transform-box:fill-box;transform-origin:0 50%;transition:transform .8s ease}
+.st g.door .ln{fill:none}
+.st .roller{fill:var(--surface);stroke:var(--rule-strong);stroke-width:1.25}
+.floor[data-world="forest"]{--accent:#58713b}
+.floor[data-world="line"]{--accent:#3d6480}
+.floor[data-world="house"]{--accent:#6f4f80}
+.floor[data-world="roost"]{--accent:#3b6b6e}
+:root[data-theme="dark"] .floor[data-world="forest"]{--accent:#8fa35e}
+:root[data-theme="dark"] .floor[data-world="line"]{--accent:#7ea7c6}
+:root[data-theme="dark"] .floor[data-world="house"]{--accent:#ad92c2}
+:root[data-theme="dark"] .floor[data-world="roost"]{--accent:#79b0b3}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]) .floor[data-world="forest"]{--accent:#8fa35e}
+  :root:not([data-theme="light"]) .floor[data-world="line"]{--accent:#7ea7c6}
+  :root:not([data-theme="light"]) .floor[data-world="house"]{--accent:#ad92c2}
+  :root:not([data-theme="light"]) .floor[data-world="roost"]{--accent:#79b0b3}
+}
+[data-world="line"] .scan-on .st .beam,[data-world="line"].scan-on .st .beam{fill:var(--accent)}
+[data-world="line"].screen-on .st .roller{stroke-dasharray:3 3;animation:ws-spin 1.6s linear infinite;transform-box:fill-box;transform-origin:50% 50%}
+[data-world="forest"].rig-on .st .led{animation-name:ws-ember}
+[data-world="house"] .st .beam{opacity:1;fill:var(--surface);stroke:var(--rule-strong);stroke-width:1.25;transform-box:fill-box;transform-origin:50% 0}
+[data-world="house"].scan-on .st .beam{opacity:1;animation:ws-flap 1.1s ease-in-out infinite alternate}
+[data-world="roost"].scan-on .st .beam{animation-name:ws-beam-short}
+[data-world="roost"].rig-on .st .led{animation-name:ws-beacon;animation-duration:2.1s}
 .sl{position:absolute;bottom:16px;transform:translateX(-50%);font-family:var(--font-mono);font-size:12px;line-height:16px;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink-faint);white-space:nowrap}
 .lamp-ochre .sl-gate{color:var(--ochre)}
 .lamp-green .sl-gate{color:var(--green)}
@@ -228,4 +256,9 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--focus);outline-offs
 @keyframes ws-type{0%{transform:scaleX(0.15)}100%{transform:scaleX(1)}}
 @keyframes ws-led{0%,100%{fill:var(--rule)}50%{fill:var(--ink)}}
 @keyframes ws-bulb{0%,100%{fill:var(--ink-faint)}50%{fill:var(--ink)}}
+@keyframes ws-spin{to{transform:rotate(360deg)}}
+@keyframes ws-ember{0%,100%{fill:var(--rule)}50%{fill:var(--accent)}}
+@keyframes ws-flap{0%{transform:scaleY(1)}100%{transform:scaleY(0.25)}}
+@keyframes ws-beam-short{0%{transform:translateY(0)}100%{transform:translateY(34px)}}
+@keyframes ws-beacon{0%,100%{fill:var(--rule)}50%{fill:var(--accent)}}
 @keyframes ws-tail{0%,100%{transform:rotate(0deg)}50%{transform:rotate(-16deg)}}

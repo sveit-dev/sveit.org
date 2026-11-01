@@ -215,26 +215,36 @@
       qa: LEGS_THIN + torso('<rect class="body" x="7" y="19" width="18" height="18" rx="8"></rect><path class="wing" d="M8.5 25C5 31 7 36 13 36C17 36 18 30 15 24Z"></path><rect class="head" x="13" y="8" width="12" height="12" rx="5.5"></rect><path class="beak" d="M24.5 13L31.5 14.5L24.5 16.5Z"></path><rect class="visor" x="17.5" y="10.5" width="7" height="3.5" rx="1"></rect>', 'qa')
     }
   };
-  var TROOPS = ['people', 'gnomes', 'robots', 'cats', 'birds'];
-  var troop = 'people';
-  var troopBtn = document.getElementById('ctl-troop');
-
   function applyTroop(name) {
     if (!FIGURES[name]) name = 'people';
-    troop = name;
     Object.keys(ROLE).forEach(function (k) {
       var svg = figs[k].el.querySelector('.fig');
       if (svg) svg.innerHTML = FIGURES[name][ROLE[k]];
     });
-    if (troopBtn) {
-      var next = TROOPS[(TROOPS.indexOf(name) + 1) % TROOPS.length];
-      Array.prototype.forEach.call(troopBtn.querySelectorAll('.i-troop'), function (s) { s.classList.toggle('on', s.getAttribute('data-troop') === name); });
-      troopBtn.setAttribute('aria-label', 'Troop: ' + name + '. Switch to ' + next);
-      troopBtn.title = name + ' · click for ' + next;
-    }
-    try { localStorage.setItem('sveit-troop', name); } catch (e) {}
   }
-  if (troopBtn) troopBtn.addEventListener('click', function () { applyTroop(TROOPS[(TROOPS.indexOf(troop) + 1) % TROOPS.length]); });
+
+  /* ---------- the worlds: five stations and a troop each ---------- */
+  var W = window.SVEIT_WORLDS || { order: ['workshop'], worlds: { workshop: { troop: 'people', stations: null } } };
+  var world = 'workshop';
+  var worldBtn = document.getElementById('ctl-troop');
+  var stationSvgs = Array.prototype.map.call(floor.querySelectorAll('.st svg'), function (s) { return s; });
+
+  function applyWorld(name) {
+    var w = W.worlds[name];
+    if (!w) { name = 'workshop'; w = W.worlds[name]; }
+    world = name;
+    floor.setAttribute('data-world', name);
+    if (w.stations) stationSvgs.forEach(function (svg, i) { if (w.stations[i]) svg.innerHTML = w.stations[i]; });
+    applyTroop(w.troop);
+    if (worldBtn) {
+      var next = W.order[(W.order.indexOf(name) + 1) % W.order.length];
+      Array.prototype.forEach.call(worldBtn.querySelectorAll('.i-troop'), function (s) { s.classList.toggle('on', s.getAttribute('data-world') === name); });
+      worldBtn.setAttribute('aria-label', 'World: ' + name + '. Switch to ' + next);
+      worldBtn.title = name + ' · click for ' + next;
+    }
+    try { localStorage.setItem('sveit-world', name); } catch (e) {}
+  }
+  if (worldBtn) worldBtn.addEventListener('click', function () { applyWorld(W.order[(W.order.indexOf(world) + 1) % W.order.length]); });
 
   /* ---------- theme ---------- */
   var themeBtn = document.getElementById('ctl-theme');
@@ -257,8 +267,8 @@
   /* ---------- start ---------- */
   initial(144);
   var saved = null;
-  try { saved = localStorage.getItem('sveit-troop'); } catch (e) {}
-  applyTroop(saved || 'people');
+  try { saved = localStorage.getItem('sveit-world'); } catch (e) {}
+  applyWorld(saved || 'workshop');
   seed();
   placeCamera();
   window.addEventListener('resize', function () { var d = cam.dur; cam.dur = 0; placeCamera(); cam.dur = d; });
